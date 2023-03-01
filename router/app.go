@@ -1,8 +1,8 @@
 package router
 
 import (
-	"gochat/service"
 	"gochat/docs"
+	"gochat/service"
 	"github.com/gin-gonic/gin"
 
 	swaggerfiles "github.com/swaggo/files"
