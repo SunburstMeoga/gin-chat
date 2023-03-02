@@ -30,10 +30,45 @@ const docTemplate = `{
                 }
             }
         },
+        "/user/createUser": {
+            "get": {
+                "tags": [
+                    "用户模块"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户名",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "密码",
+                        "name": "password",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "确认密码",
+                        "name": "repassword",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code\", \"message\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/user/getUserList": {
             "get": {
                 "tags": [
-                    "首页"
+                    "用户模块"
                 ],
                 "responses": {
                     "200": {
