@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"gochat/utils"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -16,9 +17,9 @@ type UserBasic struct {
 	Identity      string
 	ClientIp      string
 	ClientPort    string
-	LoginTime     uint64
-	HeartbeatTime uint64
-	LoginOutTime  uint64 `gorm: json:"login_out_time"`
+	LoginTime     time.Time
+	HeartbeatTime time.Time
+	LoginOutTime  time.Time `gorm: json:"login_out_time"`
 	IsLogout      bool
 	DeviceInfo    string
 }
@@ -40,6 +41,13 @@ func CreateUser(user UserBasic) *gorm.DB {
 	return utils.DB.Create(&user)
 }
 
-func main() {
+func DeleteUser(user UserBasic) *gorm.DB {
+	return utils.DB.Delete(&user)
+}
 
+func UpdateUser(user UserBasic) *gorm.DB {
+	return utils.DB.Model(&user).Updates(UserBasic{
+		Name:     user.Name,
+		PassWord: user.PassWord,
+	})
 }
