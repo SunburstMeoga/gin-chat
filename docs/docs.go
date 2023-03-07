@@ -39,19 +39,19 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "用户名",
+                        "description": "name",
                         "name": "name",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "密码",
+                        "description": "password",
                         "name": "password",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "确认密码",
+                        "description": "repassword",
                         "name": "repassword",
                         "in": "query"
                     }
@@ -81,20 +81,20 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "用户名",
+                        "description": "name",
                         "name": "name",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "密码",
+                        "description": "password",
                         "name": "password",
                         "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "code\", \"删除成功\"}",
+                        "description": "code\", \"message\"}",
                         "schema": {
                             "type": "string"
                         }
@@ -133,20 +133,32 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "用户名",
+                        "description": "name",
                         "name": "name",
                         "in": "formData"
                     },
                     {
                         "type": "string",
-                        "description": "密码",
+                        "description": "password",
                         "name": "password",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "email",
+                        "name": "email",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "phone",
+                        "name": "phone",
                         "in": "formData"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "code\", \"修改成功\"}",
+                        "description": "code\", \"message\"}",
                         "schema": {
                             "type": "string"
                         }

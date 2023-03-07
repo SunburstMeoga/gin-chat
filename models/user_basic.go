@@ -13,7 +13,7 @@ type UserBasic struct {
 	Name          string
 	PassWord      string
 	Phone         string
-	Email         string
+	Email         string `valid: "email"`
 	Identity      string
 	ClientIp      string
 	ClientPort    string
@@ -49,5 +49,7 @@ func UpdateUser(user UserBasic) *gorm.DB {
 	return utils.DB.Model(&user).Updates(UserBasic{
 		Name:     user.Name,
 		PassWord: user.PassWord,
+		Phone:    user.Phone,
+		Email:    user.Email,
 	})
 }

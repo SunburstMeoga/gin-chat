@@ -13,15 +13,15 @@ paths:
   /user/createUser:
     get:
       parameters:
-      - description: 用户名
+      - description: name
         in: query
         name: name
         type: string
-      - description: 密码
+      - description: password
         in: query
         name: password
         type: string
-      - description: 确认密码
+      - description: repassword
         in: query
         name: repassword
         type: string
@@ -40,17 +40,17 @@ paths:
         in: query
         name: id
         type: string
-      - description: 用户名
+      - description: name
         in: query
         name: name
         type: string
-      - description: 密码
+      - description: password
         in: query
         name: password
         type: string
       responses:
         "200":
-          description: code", "删除成功"}
+          description: code", "message"}
           schema:
             type: string
       summary: 删除用户
@@ -73,17 +73,25 @@ paths:
         in: formData
         name: id
         type: string
-      - description: 用户名
+      - description: name
         in: formData
         name: name
         type: string
-      - description: 密码
+      - description: password
         in: formData
         name: password
         type: string
+      - description: email
+        in: formData
+        name: email
+        type: string
+      - description: phone
+        in: formData
+        name: phone
+        type: string
       responses:
         "200":
-          description: code", "修改成功"}
+          description: code", "message"}
           schema:
             type: string
       summary: 修改用户信息
