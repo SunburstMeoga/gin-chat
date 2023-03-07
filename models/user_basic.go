@@ -3,7 +3,6 @@ package models
 import (
 	"fmt"
 	"gochat/utils"
-	"time"
 
 	"gorm.io/gorm"
 )
@@ -17,9 +16,9 @@ type UserBasic struct {
 	Identity      string
 	ClientIp      string
 	ClientPort    string
-	LoginTime     time.Time
-	HeartbeatTime time.Time
-	LoginOutTime  time.Time `gorm: json:"login_out_time"`
+	LoginTime     string
+	HeartbeatTime string
+	LoginOutTime  string
 	IsLogout      bool
 	DeviceInfo    string
 }
