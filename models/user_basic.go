@@ -14,6 +14,7 @@ type UserBasic struct {
 	Phone         string
 	Email         string `valid: "email"`
 	Identity      string
+	Salt          string
 	ClientIp      string
 	ClientPort    string
 	LoginTime     string

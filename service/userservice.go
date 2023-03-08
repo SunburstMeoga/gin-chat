@@ -3,6 +3,8 @@ package service
 import (
 	"fmt"
 	"gochat/models"
+	"gochat/utils"
+	"math/rand"
 	"strconv"
 
 	"github.com/asaskevich/govalidator"
@@ -35,13 +37,15 @@ func CreateUser(c *gin.Context) {
 	user.Name = c.Query("name")
 	password := c.Query("password")
 	repassword := c.Query("repassword")
+	salt := fmt.Sprintf("%06d", rand.Int31())
+
 	if password != repassword {
 		c.JSON(-1, gin.H{
 			"message": "两次密码输入不一致",
 		})
 		return
 	}
-	user.PassWord = password
+	user.PassWord = utils.MakePassword(password, salt)
 	models.CreateUser(user)
 	c.JSON(200, gin.H{
 		"message": "注册成功",
