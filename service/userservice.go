@@ -39,6 +39,14 @@ func CreateUser(c *gin.Context) {
 	repassword := c.Query("repassword")
 	salt := fmt.Sprintf("%06d", rand.Int31())
 
+	data := models.FindUserByName(user.Name)
+	if data.Name != "" {
+		c.JSON(200, gin.H{
+			"message": "用户名已存在",
+		})
+		return
+	}
+
 	if password != repassword {
 		c.JSON(-1, gin.H{
 			"message": "两次密码输入不一致",
@@ -46,11 +54,45 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 	user.PassWord = utils.MakePassword(password, salt)
+	user.Salt = salt
 	models.CreateUser(user)
 	c.JSON(200, gin.H{
 		"message": "注册成功",
 	})
 
+}
+
+// FindUserByNameAndPwd
+// @Summary 通过用户名和密码查找用户
+// @Tags 用户模块
+// @param name query string false "name"
+// @param password query string false "password"
+// @Success 200 {string} json{"code", "message"}
+// @Router /user/FindUserByNameAndPwd [get]
+func FindUserByNameAndPwd(c *gin.Context) {
+	data := models.UserBasic{}
+	name := c.PostForm("name")
+	password := c.PostForm("password")
+	user := models.FindUserByName(name)
+	if user.Name == "" {
+		c.JSON(200, gin.H{
+			"message": "该用户不存在",
+		})
+		return
+	}
+	fmt.Println("user-----", user)
+	flag := utils.ValidPassword(password, name, user.PassWord)
+	if !flag {
+		c.JSON(200, gin.H{
+			"message": "用户名或密码不正确",
+		})
+		return
+	}
+	pwd := utils.MakePassword(password, user.Salt)
+	data = models.FindUserByNameAndPwd(name, pwd)
+	c.JSON(200, gin.H{
+		"message": data,
+	})
 }
 
 // DeleteUser

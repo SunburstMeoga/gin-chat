@@ -10,6 +10,25 @@ paths:
             type: string
       tags:
       - 首页
+  /user/FindUserByNameAndPwd:
+    get:
+      parameters:
+      - description: name
+        in: query
+        name: name
+        type: string
+      - description: password
+        in: query
+        name: password
+        type: string
+      responses:
+        "200":
+          description: code", "message"}
+          schema:
+            type: string
+      summary: 通过用户名和密码查找用户
+      tags:
+      - 用户模块
   /user/createUser:
     get:
       parameters:

@@ -37,6 +37,32 @@ func GetUserList() []*UserBasic {
 	return data
 }
 
+// 通过name和password查找user
+func FindUserByNameAndPwd(name string, password string) UserBasic {
+	user := UserBasic{}
+	utils.DB.Where("name = ? and pass_word = ? ", name, password).First(&user)
+	return user
+}
+
+// 通过phone查找user
+func FindUserByPhone(phone string) *gorm.DB {
+	user := UserBasic{}
+	return utils.DB.Where("Phone = ?", phone).First(&user)
+}
+
+// 通过email查找user
+func FindUserByEmail(email string) *gorm.DB {
+	user := UserBasic{}
+	return utils.DB.Where("Email = ?", email).First(&user)
+}
+
+// 通过name查找user
+func FindUserByName(name string) UserBasic {
+	user := UserBasic{}
+	utils.DB.Where("name = ?", name).First(&user)
+	return user
+}
+
 func CreateUser(user UserBasic) *gorm.DB {
 	return utils.DB.Create(&user)
 }
