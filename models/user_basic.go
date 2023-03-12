@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"gochat/utils"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -40,6 +41,10 @@ func GetUserList() []*UserBasic {
 // 通过name和password查找user
 func FindUserByNameAndPwd(name string, password string) UserBasic {
 	user := UserBasic{}
+	//token加密
+	str := fmt.Sprintf("%d", time.Now().Unix())
+	temp := utils.MD5Encode(str)
+	utils.DB.Model(&user).Where("id = ?", user.ID).Update("identity", temp)
 	utils.DB.Where("name = ? and pass_word = ? ", name, password).First(&user)
 	return user
 }

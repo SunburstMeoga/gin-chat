@@ -11,7 +11,7 @@ paths:
       tags:
       - 首页
   /user/FindUserByNameAndPwd:
-    get:
+    post:
       parameters:
       - description: name
         in: query

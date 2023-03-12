@@ -6,13 +6,17 @@ import (
 	"os"
 	"time"
 
+	"github.com/garyburd/redigo/redis"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
 
-var DB *gorm.DB
+var (
+	DB  *gorm.DB
+	Red *redis.Client
+)
 
 func InitConfig() {
 	viper.SetConfigName("app")
@@ -38,4 +42,8 @@ func InitMySQL() {
 
 	DB, _ = gorm.Open(mysql.Open(viper.GetString("mysql.dns")), &gorm.Config{Logger: newLogger})
 	fmt.Println("mysql inited")
+}
+
+func InitRedis() {
+
 }

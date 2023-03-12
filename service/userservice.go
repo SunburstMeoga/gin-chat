@@ -20,7 +20,9 @@ func GetUserList(c *gin.Context) {
 	data := make([]*models.UserBasic, 10)
 	data = models.GetUserList()
 	c.JSON(200, gin.H{
-		"message": data,
+		"code":    0, //0成功 -1失败
+		"message": "注册成功",
+		"data":    data,
 	})
 }
 
@@ -42,14 +44,18 @@ func CreateUser(c *gin.Context) {
 	data := models.FindUserByName(user.Name)
 	if data.Name != "" {
 		c.JSON(200, gin.H{
+			"code":    -1, //0成功 -1失败
 			"message": "用户名已存在",
+			"data":    data,
 		})
 		return
 	}
 
 	if password != repassword {
-		c.JSON(-1, gin.H{
+		c.JSON(200, gin.H{
+			"code":    -1, //0成功 -1失败
 			"message": "两次密码输入不一致",
+			"data":    data,
 		})
 		return
 	}
@@ -57,7 +63,9 @@ func CreateUser(c *gin.Context) {
 	user.Salt = salt
 	models.CreateUser(user)
 	c.JSON(200, gin.H{
+		"code":    0, //0成功 -1失败
 		"message": "注册成功",
+		"data":    data,
 	})
 
 }
@@ -68,30 +76,38 @@ func CreateUser(c *gin.Context) {
 // @param name query string false "name"
 // @param password query string false "password"
 // @Success 200 {string} json{"code", "message"}
-// @Router /user/FindUserByNameAndPwd [get]
+// @Router /user/FindUserByNameAndPwd [post]
 func FindUserByNameAndPwd(c *gin.Context) {
 	data := models.UserBasic{}
-	name := c.PostForm("name")
-	password := c.PostForm("password")
+	name := c.Query("name")
+	password := c.Query("password")
 	user := models.FindUserByName(name)
 	if user.Name == "" {
 		c.JSON(200, gin.H{
+			"code":    -1, //0成功 -1失败
 			"message": "该用户不存在",
+
+			"data": data,
 		})
 		return
 	}
 	fmt.Println("user-----", user)
-	flag := utils.ValidPassword(password, name, user.PassWord)
+	flag := utils.ValidPassword(password, user.Salt, user.PassWord)
 	if !flag {
 		c.JSON(200, gin.H{
+			"code":    -1, //0成功 -1失败
 			"message": "用户名或密码不正确",
+
+			"data": data,
 		})
 		return
 	}
 	pwd := utils.MakePassword(password, user.Salt)
 	data = models.FindUserByNameAndPwd(name, pwd)
 	c.JSON(200, gin.H{
-		"message": data,
+		"code":    0, //0成功 -1失败
+		"message": "登录成功",
+		"data":    data,
 	})
 }
 
@@ -108,8 +124,11 @@ func DeleteUser(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Query("id"))
 	user.ID = uint(id)
 	models.DeleteUser(user)
+
 	c.JSON(200, gin.H{
+		"code":    0, //0成功 -1失败
 		"message": "删除成功",
+		"data":    user,
 	})
 }
 
@@ -134,13 +153,18 @@ func UpdateUser(c *gin.Context) {
 	_, err := govalidator.ValidateStruct(user)
 	fmt.Println("err------", err)
 	if err != nil {
-		c.JSON(-1, gin.H{
+		c.JSON(200, gin.H{
+			"code":    0, //0成功 -1失败
 			"message": "参数不匹配",
+			"data":    user,
 		})
 		return
 	}
 	models.UpdateUser(user)
+
 	c.JSON(200, gin.H{
+		"code":    0, //0成功 -1失败
 		"message": "修改用户信息成功",
+		"data":    user,
 	})
 }
