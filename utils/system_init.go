@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/garyburd/redigo/redis"
+	"github.com/go-redis/redis"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -41,9 +41,20 @@ func InitMySQL() {
 	)
 
 	DB, _ = gorm.Open(mysql.Open(viper.GetString("mysql.dns")), &gorm.Config{Logger: newLogger})
-	fmt.Println("mysql inited")
 }
 
 func InitRedis() {
-
+	Red = redis.NewClient(&redis.Options{
+		Addr:         viper.GetString("redis.addr"),
+		Password:     viper.GetString("redis.password"),
+		DB:           viper.GetInt("redis.DB"),
+		PoolSize:     viper.GetInt("redis.poolSize"),
+		MinIdleConns: viper.GetInt("redis.minIdleConns"),
+	})
+	pong, err := Red.Ping().Result()
+	if err != nil {
+		fmt.Println("初始化Redis失败", err)
+	} else {
+		fmt.Println("初始化Redis成功", pong)
+	}
 }
